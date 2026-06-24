@@ -1,0 +1,1132 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medical Fundraiser</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f5f5f5;
+}
+
+/* Hero Section */
+.hero{
+    min-height:100vh;
+    background:linear-gradient(rgba(17,170,170,.85),
+                               rgba(17,170,170,.85)),
+               url("12.jpg");
+    background-size:cover;
+    background-position:center;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:80px;
+    padding:60px;
+    flex-wrap:wrap;
+}
+
+/* Left Side */
+.left{
+    width:520px;
+    color:white;
+}
+
+.left h1{
+    font-size:55px;
+    line-height:1.15;
+    margin-bottom:25px;
+}
+
+.fees{
+    font-size:24px;
+    margin-bottom:30px;
+}
+
+.story-card{
+    width:100%;
+    background:rgba(255,255,255,.18);
+    padding:20px;
+    border-radius:20px;
+    display:flex;
+    gap: 20px;
+    align-items:center;
+    margin-top:30px;
+}
+
+.story-card img{
+    width:140px;
+    height:140px;
+    border-radius:12px;
+    object-fit:cover;
+    background:#fff;
+}
+
+.story-card h3{
+    color:white;
+    margin-bottom:8px;
+}
+
+.story-card p{
+    color:#e9e9e9;
+}
+
+/* Right Form */
+.right{
+    width:390px;
+    background:white;
+    padding:35px;
+    border-radius:15px;
+    box-shadow:0 15px 30px rgba(0,0,0,.2);
+}
+
+.right h2{
+    text-align:center;
+    margin-bottom:25px;
+    color:#444;
+}
+
+input,
+textarea,
+select{
+    width:100%;
+    padding:14px;
+    margin-bottom:15px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    font-size:15px;
+}
+
+textarea{
+    height:90px;
+    resize:none;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    background:#10b8b8;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+button:hover{
+    background:#0e9898;
+}
+
+.small-text{
+    text-align:center;
+    margin-top:15px;
+    color:#777;
+    font-size:13px;
+}
+.extra-login{
+    text-align:center;
+    margin-top:20px;
+}
+
+.admin-link{
+    background:none;
+    border:none;
+    color:#10b8b8;
+    cursor:pointer;
+    font-size:16px;
+    width:auto;
+}
+.dev-icon{
+    position:fixed;
+    bottom:15px;
+    right:15px;
+    font-size:20px;
+    cursor:pointer;
+    color:#10b8b8;
+    opacity:0.35;
+    z-index:9999;
+    transition:.3s;
+}
+
+.dev-icon:hover{
+    opacity:1;
+    transform:scale(1.15);
+}
+.section{
+    padding:80px 40px;
+    text-align:center;
+    background:#f8f8f8;
+}
+
+.section h2{
+    font-size:55px;
+    color:#333;
+}
+
+.line{
+    width:120px;
+    height:4px;
+    background:#f3b400;
+    margin:20px auto 50px;
+}
+
+/* Cards */
+.card-box{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:25px;
+}
+
+.info-card{
+    width:220px;
+    background:#fff;
+    padding:35px 20px;
+    border-radius:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,.1);
+}
+
+.info-card img{
+    width:90px;
+    height:90px;
+    object-fit:cover;
+    border-radius:50%;
+}
+
+.info-card h3{
+    margin-top:20px;
+    color:#333;
+}
+
+/* Why choose section */
+.why-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:50px;
+    margin-top:50px;
+}
+
+.why-card{
+    text-align:center;
+}
+
+.why-card h3{
+    margin:20px 0;
+    color:#333;
+}
+
+.why-card p{
+    color:#666;
+    line-height:1.7;
+}
+
+/* About Section */
+.about{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:60px;
+    flex-wrap:wrap;
+}
+
+.about img{
+    width:500px;
+    border-radius:20px;
+}
+
+.about-text{
+    width:500px;
+    text-align:left;
+}
+
+.about-text h3{
+    font-size:45px;
+    margin-bottom:20px;
+}
+
+.about-text p{
+    color:#666;
+    line-height:1.8;
+}
+@media(max-width:900px){
+    .left h1{
+        font-size:40px;
+    }
+
+    .hero{
+        padding:30px;
+    }
+
+    .right{
+        width:100%;
+        max-width:400px;
+    }
+}
+#loader{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:#08111f;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    z-index:999999;
+}
+
+#loader h2{
+    color:#00e5ff;
+    margin-top:20px;
+    letter-spacing:4px;
+    text-shadow:0 0 20px #00e5ff;
+}
+
+</style>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+</head>
+<body>
+
+<div id="loader">
+
+    <lottie-player
+        src="./Live chatbot.json"
+        background="transparent"
+        speed="1"
+        style="width:300px;height:300px;"
+        loop
+        autoplay>
+    </lottie-player>
+
+    <h2>Loading IMEWS...</h2>
+
+</div>
+
+<section class="hero">
+
+    <div class="left">
+
+        <h1>
+            Start a FREE Medical
+            Fundraiser & Raise Funds
+            for Medical Treatments
+        </h1>
+
+        <p class="fees">
+            Now with <b>0% platform fees*</b>
+        </p>
+
+        <div class="story-card">
+
+            
+            <img src="san.jpeg" alt="Patient">
+
+            <div>
+                <h3>
+                    We Need Your Support
+                </h3>
+
+                <p>
+                    Help build a better tomorrow through
+                    education, healthcare and community welfare.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="right">
+
+        <h2>Need Money Urgently?</h2>
+
+        <form id="fundraiserForm">
+
+            <input type="text"
+                   id="name"
+                   placeholder="Name *"
+                   required>
+
+            <input type="email"
+                   placeholder="Email Address *"
+                   required>
+
+            <input type="tel"
+                   id="mobile"
+                   placeholder="Mobile Number *"
+                   maxlength="10"
+                   required>
+
+            <select id="fundPurpose" required>
+                <option value="">Select Purpose</option>
+                <option value="Education Support">Education Support</option>
+                <option value="Healthcare Support">Healthcare Support</option>
+                <option value="Women Empowerment">Women Empowerment</option>
+                <option value="Skill Development">Skill Development</option>
+                <option value="Community Welfare">Community Welfare</option>
+                <option value="Any Other Cause">Any Other Cause</option>
+            </select>
+
+            <input type="text"
+              id="address"
+              placeholder="Your Address *"
+              required>
+
+            <input type="password"
+                id="password"
+                placeholder="Create Password *"
+                required>
+            <div id="passwordError"
+               style="color:red;font-size:13px;margin-bottom:15px;">
+            </div>
+            <button type="submit">
+                START A FUNDRAISER
+            </button>
+            <p style="text-align:center;margin-top:20px;">
+                Already have an account?
+            </p>
+            <button type="button"
+                onclick="showLogin()">
+               login
+            </button>
+            <div class="extra-login">
+                <button type="button"
+                    class="admin-link"
+                    onclick="showAdminLogin()">
+                   🔐 Admin Login
+                </button>
+                <span class="dev-icon"
+                    onclick="showDeveloperLogin()">
+                  👨‍💻
+                </span>
+            </div>
+            <div id="otpSection" style="display:none; margin-top:20px;">
+                <input type="text"
+                   id="otp"
+                   placeholder="Enter OTP">
+                <button type="button"
+                   onclick="verifyOTP()">
+                 Verify OTP
+                </button>
+            </div>
+            <p class="small-text">
+                456 people started a fundraiser
+                in the last 7 days
+            </p>
+            <div id="loginSection"
+                style="display:none;margin-top:20px;">
+                <input type="email"
+                    id="loginEmail"
+                    placeholder="Email">
+                <input type="password"
+                    id="loginPassword"
+                    placeholder="Password">
+                <button type="button"
+                        onclick="loginUser()">
+                        Login
+                </button>
+                <p id="forgotBox"
+                   style="
+                   display:none;
+                   text-align:center;
+                   margin-top:15px;">
+                   <a href="#"
+                      onclick="forgotPassword()"
+                      style="
+                      color:#10b8b8;
+                      text-decoration:none;">
+                      Forgot Password?
+                    </a>
+                </p>
+            </div>
+            <div id="resetSection"
+                style="display:none;margin-top:20px;">
+                <input
+                    type="email"
+                    id="resetEmail"
+                    placeholder="Registered Email">
+                <button
+                    type="button"
+                    onclick="sendResetOTP()">
+                    Send OTP
+                </button>
+                <input
+                    type="text"
+                    id="resetOTP"
+                    placeholder="Enter OTP"
+                    style="display:none;">
+                <input
+                   type="password"
+                   id="newPassword"
+                   placeholder="New Password"
+                   style="display:none;">
+                <button
+                    type="button"
+                    id="updateBtn"
+                    onclick="updateForgotPassword()"
+                    style="display:none;">
+                    Update Password
+                </button>
+            </div>
+
+                
+            <div id="adminSection"
+                style="display:none;margin-top:20px;">
+                <input type="email"
+                        id="adminEmail"
+                        placeholder="Admin Email">
+                <input type="password"
+                        id="adminPassword"
+                        placeholder="Password">
+                <button type="button"
+                        onclick="adminLogin()">
+                        Admin Login
+                </button>
+                <p id="adminForgot"
+                   style="
+                   display:none;
+                   text-align:center;
+                   margin-top:15px;">
+
+                  <a href="#"
+                     onclick="adminForgotPassword()">
+                     style="
+                     color:#10b8b8;
+                     text-decoration:none;">
+                     Forgot Password?
+                  </a>
+
+                </p>
+                
+            </div>
+            <div id="developerSection"
+                style="display:none;margin-top:20px;">
+
+                <input type="email"
+                    id="developerEmail"
+                    placeholder="Developer Email">
+
+                <input type="password"
+                    id="developerPassword"
+                    placeholder="Password">
+
+                <button type="button"
+                    onclick="developerLogin()">
+                  Developer Login
+                </button>
+                <p id="developerForgot"
+                   style="
+                   display:none;
+                   text-align:center;
+                   margin-top:15px;">
+
+                   <a href="#"
+                      onclick="developerForgotPassword()">
+                      style="
+                      color:#10b8b8;
+                      text-decoration:none;">
+                      Forgot Password?
+                    </a>
+                </p>
+
+            </div>
+
+
+        </form>
+
+</section>
+<section class="section">
+
+    <h2>What support can you raise funds for?</h2>
+    <div class="line"></div>
+
+    <div class="card-box">
+
+        <div class="info-card">
+            <img src="happy school.avif">
+            <h3>Education Support</h3>
+        </div>
+
+        <div class="info-card">
+            <img src="healthcare-collage.jpg">
+            <h3>Healthcare Support</h3>
+        </div>
+
+        <div class="info-card">
+            <img src="women.jpg">
+            <h3>Women Empowerment</h3>
+        </div>
+
+        <div class="info-card">
+            <img src="skill.png">
+            <h3>Skill Development</h3>
+        </div>
+
+        <div class="info-card">
+            <img src="food.jpg">
+            <h3>Community Welfare</h3>
+        </div>
+
+        <div class="info-card">
+            <img src="helping.webp">
+            <h3>Any Other Cause</h3>
+        </div>
+
+    </div>
+</section>
+<section class="section" style="background:#f2f0e6">
+
+    <h2>Why people support our mission?</h2>
+    <div class="line"></div>
+
+    <div class="why-grid">
+
+        <div class="why-card">
+            <h3>Education for Everyone</h3>
+            <p>
+                Donations help provide quality education
+                to children who cannot afford it.
+            </p>
+        </div>
+
+        <div class="why-card">
+            <h3>Healthcare Assistance</h3>
+            <p>
+                Support people who need medical treatment
+                and emergency healthcare services.
+            </p>
+        </div>
+
+        <div class="why-card">
+            <h3>Community Development</h3>
+            <p>
+                Together we can improve the lives of
+                families and communities in need.
+            </p>
+        </div>
+
+        <div class="why-card">
+            <h3>Transparent Donations</h3>
+            <p>
+                Every contribution directly helps
+                meaningful social causes.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+<section class="section">
+
+    <h2>Our Mission & Vision</h2>
+    <div class="line"></div>
+
+    <div class="about">
+
+        <img src="we.avif">
+
+        <div class="about-text">
+
+            <h3>Let's Join Hands</h3>
+
+            <p>
+                Indradev Memorial Educational and Welfare
+                Society works for education, healthcare,
+                skill development and community welfare.
+
+                Small contributions from many people can
+                make a big difference in someone's life.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const supabaseClient = window.supabase.createClient(
+  "https://rmclxylzjhvujyglwbcz.supabase.co",
+  "sb_publishable_JVcokI23JSAH554gFoNbmw_oc9U2UVs"
+);
+let generatedOTP = "";
+
+document.querySelector("form").addEventListener(
+  "submit",
+  async function(e) {
+    e.preventDefault();
+
+    let password =
+      document.getElementById("password").value;
+
+    const regex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+
+    if (!regex.test(password)) {
+      document.getElementById("passwordError").innerHTML =
+        "Password must contain 1 Capital, 1 Small, 1 Number and 1 Special Character.";
+      return;
+    }
+
+    document.getElementById("passwordError").innerHTML = "";
+
+    let email =
+      document.querySelector('input[type="email"]').value;
+
+    const { data, error } =
+       await supabaseClient.auth.signInWithOtp({
+        email: email
+    });
+
+    console.log("OTP Send Error:", error);
+
+    if (error) {
+       alert(error.message);
+    } 
+    else {
+      alert("OTP bhej diya gaya!");
+      document.getElementById("otpSection").style.display = "block";
+    }
+  }
+);
+async function verifyOTP() {
+
+    let email =
+        document.querySelector('input[type="email"]').value;
+
+    let userOTP =
+        document.getElementById("otp").value;
+
+    const { data, error } =
+        await supabaseClient.auth.verifyOtp({
+            email: email,
+            token: userOTP,
+            type: "email"
+        });
+
+    if (error) {
+        alert("Invalid OTP: " + error.message);
+    } else {
+         await supabaseClient.auth.updateUser({
+            password:
+            document.getElementById("password").value
+         });
+        alert("OTP Verified Successfully!");
+        const { error: insertError } =
+        await supabaseClient
+        .from("user_details")
+        .insert({
+            name: document.getElementById("name").value,
+            email: email,
+            mobile: document.getElementById("mobile").value,
+            address: document.getElementById("address").value,
+            purpose: document.getElementById("fundPurpose").value
+        });
+        if(insertError){
+            alert(insertError.message);
+            console.log(insertError);
+            return;
+        }
+        const { error: walletError } =
+        await supabaseClient
+        .from("wallets")
+        .insert({
+             email: email,
+             balance: 0
+        })
+        if(walletError){
+            console.log("Wallet Error:", walletError);
+             alert(walletError.message);
+             return;
+        }
+        localStorage.setItem(
+          "userName",
+          document.getElementById("name").value
+        );
+        localStorage.setItem(
+            "userEmail",
+            email
+        );
+
+        localStorage.setItem(
+          "isLoggedIn",
+          "true"
+        );
+         console.log("Redirecting...");
+
+        window.location.href = "./dasboard.html";
+    }
+}
+
+function showLogin(){
+    document.getElementById(
+        "loginSection"
+    ).style.display = "block";
+}
+function showAdminLogin(){
+
+    document.getElementById(
+        "adminSection"
+    ).style.display = "block";
+}
+
+function showDeveloperLogin(){
+
+    document.getElementById(
+        "developerSection"
+    ).style.display = "block";
+}
+let loginAttempts = 0;
+let adminAttempts = 0;
+let developerAttempts = 0;
+async function loginUser(){
+
+    let email =
+        document.getElementById(
+            "loginEmail"
+        ).value;
+
+    let password =
+        document.getElementById(
+            "loginPassword"
+        ).value;
+
+    const { data, error } =
+    await supabaseClient.auth
+    .signInWithPassword({
+        email: email,
+        password: password
+    });
+
+    if(error){
+        loginAttempts++;
+        if(loginAttempts >= 4){
+            document.getElementById(
+                "forgotBox"
+            ).style.display = "block";
+        }
+        alert(
+            "Wrong Email or Password"
+        );
+        return;
+    }
+
+    const { data: userData, error: userError } =
+    await supabaseClient
+    .from("user_details")
+    .select("name")
+    .eq("email", email)
+    .maybeSingle();
+    if(userData && userData.name){
+        localStorage.setItem(
+            "userName",
+            userData.name
+    );
+    }
+    else{
+        alert("Name not found in database.");
+        localStorage.setItem(
+            "userName",
+            "User"
+        );   
+    }
+    localStorage.setItem(
+        "userEmail",
+         email
+    );
+    loginAttempts = 0;
+    localStorage.setItem(
+        "isLoggedIn",
+        "true"
+    );
+
+    window.location.href =
+        "./dasboard.html";
+}
+const ADMIN_EMAIL =
+"admin@gmail.com";
+
+const ADMIN_PASSWORD =
+"123456";
+
+const DEV_EMAIL =
+"sshivam78085@gmail.com";
+
+const DEV_PASSWORD =
+"Sandhya@80";
+
+function adminLogin(){
+
+    let email =
+        document.getElementById(
+            "adminEmail"
+        ).value;
+
+    let password =
+        document.getElementById(
+            "adminPassword"
+        ).value;
+
+    if(
+        email === ADMIN_EMAIL &&
+        password === ADMIN_PASSWORD
+    ){
+        adminAttempts = 0;
+        localStorage.setItem(
+            "adminLogin",
+            "true"
+        );
+
+        window.location.href =
+            "./admin.html";
+    }
+    else{
+        adminAttempts++;
+
+        if(adminAttempts >= 4){
+
+           document.getElementById(
+               "adminForgot"
+            ).style.display = "block";
+        }
+
+         alert(
+            "Wrong Admin Email or Password"
+    );
+    }
+}
+
+function developerLogin(){
+
+    let email =
+        document.getElementById(
+            "developerEmail"
+        ).value;
+
+    let password =
+        document.getElementById(
+            "developerPassword"
+        ).value;
+
+    if(
+        email === DEV_EMAIL &&
+        password === DEV_PASSWORD
+    ){
+        developerAttempts = 0;
+        localStorage.setItem(
+            "developerLogin",
+            "true"
+        );
+
+        window.location.href =
+            "./admin.html";
+    }
+    else{
+        
+        developerAttempts++;
+
+        if(developerAttempts >= 4){
+
+            document.getElementById(
+               "developerForgot"
+            ).style.display = "block";
+        }
+
+        alert(
+          "Wrong Developer Email or Password"
+        );
+    }
+}
+function forgotPassword(){
+
+    document.getElementById(
+        "resetSection"
+    ).style.display = "block";
+
+    document.getElementById(
+        "resetEmail"
+    ).value =
+    document.getElementById(
+        "loginEmail"
+    ).value;
+}
+async function sendResetOTP(){
+
+    let email =
+        document.getElementById(
+            "resetEmail"
+        ).value
+        .trim();
+
+    if(!email){
+        alert("Enter Email");
+        return;
+    }
+
+    if(
+        email === ADMIN_EMAIL ||
+        email === DEV_EMAIL
+    ){
+
+        const { error } =
+        await supabaseClient.auth
+        .signInWithOtp({
+            email: email
+        });
+
+        if(error){
+            alert(error.message);
+        }
+        else{
+            alert(
+                "OTP sent successfully."
+            );
+
+            document.getElementById(
+                "resetOTP"
+            ).style.display =
+            "block";
+
+            document.getElementById(
+                "newPassword"
+            ).style.display =
+            "block";
+
+            document.getElementById(
+                "updateBtn"
+            ).style.display =
+            "block";
+        }
+
+        return;
+    }
+
+    const {
+        data:user
+    } =
+    await supabaseClient
+    .from("user_details")
+    .select("email")
+    .eq("email", email)
+    .maybeSingle();
+
+    if(!user){
+        alert("Invalid Email");
+        return;
+    }
+
+    const { error } =
+    await supabaseClient.auth
+    .signInWithOtp({
+        email: email
+    });
+
+    if(error){
+        alert(error.message);
+    }
+    else{
+
+        alert(
+            "OTP sent successfully."
+        );
+
+        document.getElementById(
+            "resetOTP"
+        ).style.display =
+        "block";
+
+        document.getElementById(
+            "newPassword"
+        ).style.display =
+        "block";
+
+        document.getElementById(
+            "updateBtn"
+        ).style.display =
+        "block";
+    }
+}
+
+async function updateForgotPassword(){
+
+    let email =
+        document.getElementById(
+            "resetEmail"
+        ).value;
+
+    let otp =
+        document.getElementById(
+            "resetOTP"
+        ).value;
+
+    let password =
+        document.getElementById(
+            "newPassword"
+        ).value;
+
+    const { error } =
+    await supabaseClient.auth
+    .verifyOtp({
+        email: email,
+        token: otp,
+        type: "email"
+    });
+
+    if(error){
+        alert("Invalid OTP");
+        return;
+    }
+
+    const {
+        error:updateError
+    } =
+    await supabaseClient.auth
+    .updateUser({
+        password: password
+    });
+
+    if(updateError){
+        alert(updateError.message);
+    }
+    else{
+
+        alert(
+            "Password Updated Successfully"
+        );
+
+        document.getElementById(
+            "resetSection"
+        ).style.display = "none";
+        document.getElementById(
+            "loginSection"
+        ).style.display = "block";
+    }
+}
+
+</script>
+<script>
+window.addEventListener("load",()=>{
+
+    setTimeout(()=>{
+
+        document.getElementById(
+            "loader"
+        ).style.display="none";
+
+    },2500);
+
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width,initial-scale=1.0">
+
+<title>Admin Dashboard</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#0f172a;
+    color:white;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+.header{
+    background:
+    linear-gradient(
+        90deg,
+        #0f766e,
+        #14b8a6
+    );
+
+    color:white;
+    padding:25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:
+    0 5px 20px
+    rgba(0,0,0,.15);
+}
+.logout-btn{
+    background:white;
+    color:#10b8b8;
+    border:none;
+    padding:10px 20px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.dashboard{
+    padding:30px;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+}
+
+.card{
+    padding:35px;
+    border-radius:25px;
+    position:relative;
+    overflow:hidden;
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.35);
+    transition:.4s;
+}
+.card::before{
+    content:"";
+    position:absolute;
+    top:-50%;
+    right:-50%;
+    width:150px;
+    height:150px;
+    background:rgba(255,255,255,.15);
+    border-radius:50%;
+}
+.card:hover{
+    transform:
+        translateY(-10px)
+        scale(1.03);
+
+    box-shadow:
+        0 25px 50px
+        rgba(0,0,0,.45);
+}
+
+.card h2{
+    font-size:52px;
+    font-weight:900;
+    margin-bottom:12px;
+    color:#fff;
+    text-shadow:
+        0 4px 15px rgba(0,0,0,.35);
+}
+.card:nth-child(1){
+    background:linear-gradient(135deg,#0099ff,#00e5ff);
+}
+
+.card:nth-child(2){
+    background:linear-gradient(135deg,#11998e,#38ef7d);
+}
+
+.card:nth-child(3){
+    background:linear-gradient(135deg,#ff416c,#ff4b2b);
+}
+
+.card:nth-child(4){
+    background:linear-gradient(135deg,#8e2de2,#c471ed);
+}
+
+.card:nth-child(5){
+    background:linear-gradient(135deg,#396afc,#2948ff);
+}
+
+.card:nth-child(6){
+    background:linear-gradient(135deg,#f7971e,#ffd200);
+}
+.card p{
+    font-size:16px;
+    font-weight:600;
+    color:rgba(255,255,255,.9);
+    letter-spacing:1px;
+}
+.search-box{
+    margin-top:40px;
+}
+
+.search-box input{
+    width:100%;
+    padding:18px 25px;
+    background:rgba(255,255,255,.08);
+    color:white;
+    border:1px solid rgba(0,229,255,.25);
+    border-radius:50px;
+    outline:none;
+    font-size:17px;
+    box-shadow:
+        0 0 20px rgba(0,229,255,.12);
+    transition:.4s;
+}
+
+.search-box input:focus{
+    border:1px solid #00e5ff;
+    box-shadow:
+        0 0 30px rgba(0,229,255,.45);
+}
+.search-box input::placeholder{
+    color:#9ca3af;
+}
+.table-box{
+    margin-top:40px;
+    overflow:auto;
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(15px);
+    border:1px solid rgba(255,255,255,.15);
+    color:white;
+    border-radius:20px;
+    padding:20px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:
+        rgba(255,255,255,.08);
+
+    color:
+        rgba(255,255,255,.75);
+
+    padding:15px;
+
+    font-weight:600;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.15);
+}
+thead{
+    backdrop-filter:blur(15px);
+}
+td{
+    color:#f1f5f9;
+}
+
+tbody tr{
+    transition:.3s;
+}
+
+tbody tr:hover{
+    background:
+    rgba(0,229,255,.08);
+    transform:scale(1.01);
+}
+.block-btn{
+    background:#ff4d4d;
+    color:white;
+    border:none;
+    padding:8px 15px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.unblock-btn{
+    background:#2ecc71;
+    color:white;
+    border:none;
+    padding:8px 15px;
+    border-radius:8px;
+    cursor:pointer;
+}
+.bg{
+    position:fixed;
+    width:100%;
+    height:100%;
+    top:0;
+    left:0;
+    z-index:-1;
+
+    background:
+    radial-gradient(
+        circle at top left,
+        #00bcd4,
+        transparent 40%
+    ),
+    radial-gradient(
+        circle at bottom right,
+        #3f51b5,
+        transparent 40%
+    ),
+    #0f172a;
+
+    animation:
+    bgMove
+    8s infinite alternate;
+}
+
+@keyframes bgMove{
+
+    from{
+        filter:brightness(100%);
+    }
+
+    to{
+        filter:brightness(130%);
+    }
+}
+
+</style>
+</head>
+
+<body>
+<div class="bg"></div>
+<div class="header">
+
+    <h1>Admin Dashboard</h1>
+
+    <button class="logout-btn"
+            onclick="logoutAdmin()">
+        Logout
+    </button>
+
+</div>
+
+<div class="dashboard">
+
+    <div class="cards">
+
+        <div class="card">
+            <h2 id="totalUsers">0</h2>
+            <p>Total Users</p>
+        </div>
+
+        <div class="card">
+            <h2 id="totalWallet">
+                ₹0
+            </h2>
+            <p>Total Wallet Balance</p>
+        </div>
+
+        <div class="card">
+            <h2 id="blockedUsers">
+                0
+            </h2>
+            <p>Blocked Users</p>
+        </div>
+        <div class="card">
+              <h2 id="educationCount">0</h2>
+              <p>Education Cases</p>
+        </div>
+
+        <div class="card">
+            <h2 id="healthCount">0</h2>
+            <p>Healthcare Cases</p>
+        </div>
+
+        <div class="card">
+             <h2 id="communityCount">0</h2>
+             <p>Community Welfare</p>
+        </div>
+    </div>
+
+    <div class="search-box">
+
+        <input
+        type="text"
+        id="searchUser"
+        placeholder="Search by name or email">
+
+    </div>
+
+    <div class="table-box">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th>Address</th>
+                    <th>Purpose</th>
+                    <th>Wallet</th>
+                    <th>Status</th>
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="userTable">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const supabaseClient =
+window.supabase.createClient(
+"https://rmclxylzjhvujyglwbcz.supabase.co",
+"sb_publishable_JVcokI23JSAH554gFoNbmw_oc9U2UVs"
+);
+
+function logoutAdmin(){
+
+    localStorage.removeItem(
+        "adminLogin"
+    );
+
+    localStorage.removeItem(
+        "developerLogin"
+    );
+
+    window.location.href =
+    "shivam.html";
+}
+if(
+   !localStorage.getItem("adminLogin")
+   &&
+   !localStorage.getItem("developerLogin")
+){
+    window.location.href =
+    "shivam.html";
+}
+loadDashboard();
+
+async function loadDashboard(){
+
+    const { data: users, error }
+    =
+    await supabaseClient
+    .from("user_details")
+    .select("*");
+
+    if(error){
+        console.log(error);
+        return;
+    }
+
+    loadCards(users);
+
+    loadUsers(users);
+}
+async function loadCards(users){
+
+    animateNumber(
+       "totalUsers",
+        users.length
+    );
+    function animateNumber(
+       id,
+       value
+    ){
+
+      let count = 0;
+
+      let interval =
+      setInterval(()=>{
+
+        count++;
+
+        document.getElementById(
+            id
+        ).innerHTML =
+        count;
+
+        if(
+            count >= value
+        ){
+            clearInterval(
+                interval
+            );
+        }
+
+    },20);
+}
+
+    let blocked =
+    users.filter(
+        x => x.is_blocked
+    ).length;
+
+    document.getElementById(
+        "blockedUsers"
+    ).innerHTML =
+    blocked;
+
+    const {
+        data: wallets
+    }
+    =
+    await supabaseClient
+    .from("wallets")
+    .select("*");
+
+    let total = 0;
+
+    wallets.forEach(
+        x=>{
+            total +=
+            Number(
+                x.balance
+            );
+        }
+    );
+
+    document.getElementById(
+        "totalWallet"
+    ).innerHTML =
+    "₹" +
+    total.toLocaleString();
+    document.getElementById(
+        "educationCount"
+    ).innerHTML =
+    users.filter(
+    u =>
+    u.purpose ===
+    "Education Support"
+    ).length;
+
+    document.getElementById(
+      "healthCount"
+    ).innerHTML =
+    users.filter(
+    u =>
+    u.purpose ===
+    "Healthcare Support"
+    ).length;
+
+    document.getElementById(
+      "communityCount"
+    ).innerHTML =
+    users.filter(
+    u =>
+    u.purpose ===
+    "Community Welfare"
+    ).length;
+}
+async function loadUsers(users){
+
+    const {
+        data: wallets
+    }
+    =
+    await supabaseClient
+    .from("wallets")
+    .select("*");
+
+    let html = "";
+
+    users.forEach(user=>{
+
+        let wallet =
+        wallets.find(
+            w =>
+            w.email ===
+            user.email
+        );
+
+        let balance =
+        wallet
+        ?
+        wallet.balance
+        :
+        0;
+
+        html +=
+        `
+        <tr>
+
+            <td>${user.name}</td>
+
+            <td>${user.email}</td>
+
+            <td>${user.mobile}</td>
+
+            <td>${user.address}</td>
+
+            <td>${user.purpose}</td>
+
+            <td>
+            ₹${balance}
+            </td>
+
+            <td>
+
+            ${
+                user.is_blocked
+                ?
+                `<span
+                style="
+                background:#ff4d4d;
+                color:white;
+                padding:6px 12px;
+                border-radius:30px;">
+                Blocked
+               </span>`
+                :
+                `<span
+                style="
+                background:#2ecc71;
+                color:white;
+                padding:6px 12px;
+                border-radius:30px;">
+                Active
+                </span>`
+            }
+
+            </td>
+
+            <td>
+
+            ${
+                user.is_blocked
+                ?
+
+                `<button
+                 class="unblock-btn"
+                 onclick=
+                 "unblockUser(
+                 '${user.email}'
+                 )">
+
+                 Unblock
+
+                 </button>`
+
+                :
+
+                `<button
+                 class="block-btn"
+                 onclick=
+                 "blockUser(
+                 '${user.email}'
+                 )">
+
+                 Block
+
+                 </button>`
+            }
+
+            </td>
+
+        </tr>
+        `;
+    });
+
+    document.getElementById(
+        "userTable"
+    ).innerHTML =
+    html;
+}
+async function blockUser(
+    email
+){
+
+    await supabaseClient
+    .from("user_details")
+    .update({
+        is_blocked:true
+    })
+    .eq(
+        "email",
+        email
+    );
+
+    loadDashboard();
+}
+async function unblockUser(
+    email
+){
+
+    await supabaseClient
+    .from("user_details")
+    .update({
+        is_blocked:false
+    })
+    .eq(
+        "email",
+        email
+    );
+
+    loadDashboard();
+}
+document
+.getElementById(
+    "searchUser"
+)
+.addEventListener(
+"input",
+async function(){
+
+    let value =
+    this.value
+    .toLowerCase();
+
+    const {
+        data: users
+    }
+    =
+    await supabaseClient
+    .from("user_details")
+    .select("*");
+
+    let filtered =
+    users.filter(
+        u =>
+        (u.name || "")
+        .toLowerCase()
+        .includes(value)
+        ||
+        (u.email || "")
+        .toLowerCase()
+        .includes(value)
+    );
+
+    loadUsers(
+        filtered
+    );
+});
+setInterval(
+loadDashboard,
+5000
+);
+</script>
+
+</body>
+</html>

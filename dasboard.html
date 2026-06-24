@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NGO Dashboard</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#0f172a;
+    color:white;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+/* Animated Background */
+.bg{
+    position:fixed;
+    width:100%;
+    height:100%;
+    top:0;
+    left:0;
+    z-index:-1;
+    background:
+    radial-gradient(circle at top left,#00bcd4,transparent 40%),
+    radial-gradient(circle at bottom right,#3f51b5,transparent 40%),
+    #0f172a;
+    animation:bgMove 8s infinite alternate;
+}
+
+@keyframes bgMove{
+    from{
+        filter:brightness(100%);
+    }
+    to{
+        filter:brightness(130%);
+    }
+}
+
+/* Navbar */
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:25px 60px;
+}
+.logo{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.logo-img{
+    width:65px;
+    height:65px;
+    border-radius:50%;
+    border:2px solid #00e5ff;
+    box-shadow:0 0 15px #00e5ff;
+}
+
+.logo-text h2{
+    color:#00e5ff;
+    font-size:28px;
+    margin:0;
+}
+
+.logo-text p{
+    color:#ccc;
+    font-size:14px;
+    margin:0;
+}
+
+/* Glass Card */
+.glass{
+    background:rgba(255,255,255,.1);
+    backdrop-filter:blur(15px);
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:25px;
+    padding:35px;
+    box-shadow:0 15px 35px rgba(0,0,0,.4);
+}
+
+/* Hero */
+.hero{
+    width:90%;
+    margin:40px auto;
+    text-align:center;
+}
+
+#welcome{
+    font-size:45px;
+    margin-bottom:20px;
+}
+
+.tagline{
+    font-size:22px;
+    color:#ddd;
+    margin-bottom:35px;
+}
+
+.btn{
+    padding:16px 35px;
+    border:none;
+    border-radius:50px;
+    background:#00e5ff;
+    color:#000;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.4s;
+}
+
+.btn:hover{
+    transform:scale(1.08);
+    box-shadow:0 0 25px #00e5ff;
+}
+
+/* Common Section */
+.section{
+    width:90%;
+    margin:60px auto;
+}
+
+/* Chairman Section */
+.chairman{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:40px;
+    flex-wrap:wrap;
+}
+
+.chairman-img{
+    width:260px;
+    height:260px;
+    object-fit:cover;
+    border-radius:25px;
+    border:3px solid #00e5ff;
+    box-shadow:0 0 30px #00e5ff;
+    transition:.5s;
+}
+
+.chairman-img:hover{
+    transform:scale(1.05);
+    box-shadow:0 0 50px #00e5ff;
+}
+
+/* Cards */
+.cards{
+    display:flex;
+    justify-content:center;
+    gap:30px;
+    flex-wrap:wrap;
+    margin-top:40px;
+}
+
+.card{
+    width:250px;
+    padding:35px;
+    text-align:center;
+    transition:.5s;
+    cursor:pointer;
+}
+
+.card:hover{
+    transform:
+        perspective(1000px)
+        rotateY(15deg)
+        translateY(-10px);
+
+    box-shadow:
+        0 0 30px #00e5ff;
+}
+
+/* Gallery */
+.gallery{
+    width:300px;
+    height:220px;
+    object-fit:cover;
+    border-radius:20px;
+    transition:.5s;
+    box-shadow:0 10px 30px rgba(0,0,0,.5);
+}
+
+.gallery:hover{
+    transform:scale(1.08);
+    box-shadow:0 0 40px #00e5ff;
+}
+
+/* Footer */
+footer{
+    text-align:center;
+    line-height:2;
+}
+
+/* About Paragraph */
+.section p{
+    line-height:1.8;
+    color:#ddd;
+    margin-top:20px;
+}
+
+/* Headings */
+.section h2{
+    text-align:center;
+    font-size:35px;
+    margin-bottom:20px;
+    color:#00e5ff;
+}
+
+/* Statistics Numbers */
+.card h1{
+    font-size:50px;
+    color:#00e5ff;
+    margin-bottom:15px;
+}
+
+/* Mobile Responsive */
+@media(max-width:768px){
+    #walletBox{
+        top:95px;
+        right:15px;
+        padding:12px 16px;
+    }
+    .wallet_right h3{
+        font-size:22px;
+    }
+
+    .navbar{
+        flex-direction:column;
+        gap:20px;
+    }
+
+    #welcome{
+        font-size:32px;
+    }
+
+    .chairman-img{
+        width:220px;
+        height:220px;
+    }
+
+    .gallery{
+        width:100%;
+        height:auto;
+    }
+
+    .card{
+        width:100%;
+    }
+}
+#particles-js{
+    position:fixed;
+    width:100%;
+    height:100%;
+    top:0;
+    left:0;
+    z-index:-2;
+}
+
+.details-panel{
+position:fixed;
+top:0;
+right:-100%;
+width:650px;
+max-width:100%;
+height:100%;
+background:#111827;
+overflow:auto;
+z-index:9999;
+transition:.5s;
+padding:35px;
+box-shadow:-10px 0 40px rgba(0,0,0,.7);
+border-left:2px solid #00e5ff;
+}
+
+.details-panel.active{
+right:0;
+}
+
+.close-panel{
+font-size:40px;
+cursor:pointer;
+float:right;
+color:#00e5ff;
+}
+.panel-image{
+width:100%;
+height:250px;
+object-fit:cover;
+border-radius:20px;
+margin-bottom:20px;
+border:2px solid #00e5ff;
+}
+.panel-title{
+font-size:35px;
+color:#00e5ff;
+margin-bottom:20px;
+}
+
+.panel-text{
+line-height:2;
+color:#ddd;
+}
+#walletBox{
+    position:fixed;
+    top: 95px;
+    right:20px;
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:12px 18px;
+    background:rgba(17,24,39,.85);
+    backdrop-filter:blur(15px);
+    border:1px solid rgba(0,229,255,.3);
+    border-radius:18px;
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.4),
+        0 0 20px rgba(0,229,255,.15);
+    z-index:1000;
+    transition:.4s;
+    overflow:hidden;
+}
+
+#walletBox:hover{
+    transform:translateY(-4px);
+    box-shadow:
+        0 15px 45px rgba(0,0,0,.6),
+        0 0 30px rgba(0,229,255,.35);
+}
+
+.wallet-left{
+    font-size:32px;
+}
+
+.wallet-right small{
+    color:#bdbdbd;
+    display:block;
+    font-size:12px;
+}
+
+.wallet-right h3{
+    color:#00e5ff;
+    margin-top:4px;
+    font-size:26px;
+}
+
+.wallet-dot{
+    width:10px;
+    height:10px;
+    background:#00ff6a;
+    border-radius:50%;
+    position:absolute;
+    top:10px;
+    right:12px;
+    animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+    0%{
+        box-shadow:0 0 0 0 rgba(0,255,106,.7);
+    }
+    100%{
+        box-shadow:0 0 0 12px rgba(0,255,106,0);
+    }
+}
+.report-grid{
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+    margin-top:35px;
+}
+
+.report-card{
+    background:rgba(255,255,255,.08);
+    border-radius:20px;
+    padding:35px;
+    text-align:center;
+    border:1px solid rgba(255,255,255,.15);
+    transition:.4s;
+}
+
+.report-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 0 25px #00e5ff;
+}
+
+.report-card h1{
+    color:#00e5ff;
+    font-size:45px;
+}
+
+.report-card p{
+    margin-top:15px;
+}
+.support-box{
+    text-align:center;
+}
+
+.donation-cards{
+    display:flex;
+    justify-content:center;
+    gap:25px;
+    flex-wrap:wrap;
+    margin-top:40px;
+}
+.impact-strip{
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fit,minmax(180px,1fr));
+    gap:25px;
+    margin:45px 0;
+}
+
+.impact-item{
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:22px;
+    padding:30px;
+    text-align:center;
+    transition:.4s;
+}
+
+.impact-item:hover{
+    transform:translateY(-8px);
+    box-shadow:0 0 25px #00e5ff;
+}
+
+.impact-item h1{
+    color:#00e5ff;
+    font-size:40px;
+    margin:15px 0;
+}
+
+.impact-item p{
+    color:#ccc;
+}
+.donation-card{
+    width:260px;
+    background:rgba(255,255,255,.08);
+    padding:30px;
+    border-radius:20px;
+    border:1px solid rgba(255,255,255,.12);
+    transition:.4s;
+}
+
+.donation-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 0 25px #00e5ff;
+}
+
+.donation-card h4{
+    margin:20px 0 10px;
+    color:#00e5ff;
+}
+
+.donation-card p{
+    color:#ccc;
+    line-height:1.7;
+}
+.donation-progress{
+    width:70%;
+    height:12px;
+    background:#2d3748;
+    margin:25px auto;
+    border-radius:50px;
+    overflow:hidden;
+}
+
+.donation-fill{
+    width:10%;
+    height:100%;
+    background:#00e5ff;
+    border-radius:50px;
+    box-shadow:0 0 20px #00e5ff;
+}
+.contact-container{
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fit,minmax(250px,1fr));
+    gap:30px;
+    margin-top:40px;
+}
+
+.contact-box{
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:25px;
+    padding:35px;
+    text-align:center;
+    transition:.4s;
+}
+
+.contact-box:hover{
+    transform:translateY(-10px);
+    box-shadow:0 0 30px #00e5ff;
+}
+
+.contact-icon{
+    font-size:45px;
+    margin-bottom:20px;
+}
+
+.contact-box h4{
+    color:#00e5ff;
+    margin-bottom:15px;
+    font-size:22px;
+}
+
+.contact-box p{
+    color:#ccc;
+    line-height:1.7;
+}
+
+.footer-line{
+    width:80%;
+    height:1px;
+    background:rgba(255,255,255,.15);
+    margin:45px auto 25px;
+}
+
+.footer-text{
+    color:#bbb;
+    text-align:center;
+    font-size:17px;
+}
+
+.copyright{
+    text-align:center;
+    color:#777;
+    margin-top:20px;
+    font-size:14px;
+}
+#loader{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:#08111f;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    z-index:999999;
+}
+
+#loader h2{
+    color:#00e5ff;
+    margin-top:20px;
+    letter-spacing:4px;
+    text-shadow:0 0 20px #00e5ff;
+}
+
+</style>
+<script>
+if(localStorage.getItem("isLoggedIn") !== "true"){
+    window.location.href = "shivam.html";
+}
+</script>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+</head>
+
+<body>
+<div id="loader">
+
+    <lottie-player
+        src="./Live chatbot.json"
+        background="transparent"
+        speed="1"
+        style="width:300px;height:300px;"
+        loop
+        autoplay>
+    </lottie-player>
+
+    <h2>Loading Dashboard...</h2>
+
+</div>
+<div id="particles-js"></div>
+<div class="bg"></div>
+
+<nav class="navbar">
+
+    <div class="logo">
+        <img src="logo.png" class="logo-img">
+         <div class="logo-text">
+             <h2>IMEWS</h2>
+              <p>Serving Humanity With Care</p>
+         </div>
+    </div>
+
+    <button class="btn" onclick="logout()">
+        Logout
+    </button>
+
+</nav>
+<div id="walletBox">
+    <div class="wallet-dot"></div>
+
+    <div class="wallet-left">
+        💰
+    </div>
+
+    <div class="wallet-right">
+        <small>My Wallet</small>
+        <h3 id="walletBalance">₹0</h3>
+    </div>
+</div>
+<section class="hero glass">
+
+    <h1 id="welcome">
+        Welcome User
+    </h1>
+
+    <p class="tagline">
+        A Small Donation Can Change A Life ❤️
+    </p>
+
+    <button class="btn">
+        Donate Now
+    </button>
+
+</section>
+<section class="glass section">
+
+    <h2>About Our NGO</h2>
+
+    <p>
+        INDRADEV MEMORIAL EDUCATIONAL AND
+        WELFARE SOCIETY works for education,
+        healthcare and community welfare.
+    </p>
+
+</section>
+<section class="glass section chairman">
+
+    <img src="sunil.png"
+         class="chairman-img">
+
+    <div>
+
+        <h2>Dr. Sunil Kumar</h2>
+
+        <h4>
+            Founder & Chairman
+        </h4>
+
+        <p>
+            Dedicated to education and
+            social upliftment.
+        </p>
+
+    </div>
+
+</section>
+<section class="section">
+
+<h2 style="text-align:center;">
+Our Focus Areas
+</h2>
+
+<div class="cards">
+
+<div class="card glass"
+onclick="openPanel('education')">
+📚
+<h3>Education</h3>
+<p>500+ children supported through quality education programs.</p>
+</div>
+
+<div class="card glass"
+onclick="openPanel('health')">
+🩺
+<h3>Healthcare</h3>
+<p>Medical camps and healthcare services for rural communities.</p>
+</div>
+
+<div class="card glass"
+onclick="openPanel('women')">
+👩
+<h3>Women Empowerment</h3>
+<p>Skill development and employment opportunities for women.</p>
+</div>
+
+<div class="card glass"
+onclick="openPanel('community')">
+❤️
+<h3>Community Welfare</h3>
+<p>Food distribution and community development initiatives.</p>
+</div>
+
+</div>
+
+</section>
+<section class="section">
+
+<h2 style="text-align:center;">
+Our Impact
+</h2>
+
+<div class="cards">
+
+<div class="card glass">
+<h1 id="child">0</h1>
+Children Supported
+</div>
+
+<div class="card glass">
+<h1 id="medical">0</h1>
+Medical Beneficiaries
+</div>
+
+<div class="card glass">
+<h1 id="camp">0</h1>
+Health Camps
+</div>
+
+<div class="card glass">
+<h1 id="project">0</h1>
+Projects
+</div>
+</div>
+
+</section>
+<section class="section">
+
+<h2 style="text-align:center;">
+Gallery
+</h2>
+
+<div class="cards">
+
+<img src="education.jpeg" class="gallery">
+
+<img src="medical.png" class="gallery">
+
+<img src="fod.png" class="gallery">
+
+</div>
+
+</section>
+<section class="glass section">
+
+<h2>Annual Report Highlights</h2>
+<div class="report-grid">
+
+<div class="report-card">
+    <h1>500+</h1>
+    <p>Children Benefitted</p>
+</div>
+
+<div class="report-card">
+    <h1>15</h1>
+    <p>Health Camps Conducted</p>
+</div>
+
+<div class="report-card">
+    <h1>200+</h1>
+    <p>Community Projects</p>
+</div>
+
+<div class="report-card">
+    <h1>5000+</h1>
+    <p>Medical Beneficiaries</p>
+</div>
+
+</div>
+<p style="
+text-align:center;
+margin-top:35px;
+color:#ccc;">
+📄 Annual Impact Report 2026
+</p>
+
+</section>
+<section class="glass section">
+
+<h2>Support Our Mission</h2>
+
+<div class="impact-strip">
+
+    <div class="impact-item">
+        ❤️
+        <h1>500+</h1>
+        <p>Lives Changed</p>
+    </div>
+
+    <div class="impact-item">
+        💰
+        <h1>₹2.5L</h1>
+        <p>Funds Raised</p>
+    </div>
+
+    <div class="impact-item">
+        👥
+        <h1>50+</h1>
+        <p>Volunteers</p>
+    </div>
+
+    <div class="impact-item">
+        🌍
+        <h1>20+</h1>
+        <p>Villages Reached</p>
+    </div>
+
+</div>
+
+    </div>
+
+    <h3 style="margin-top:30px;color:#00e5ff;">
+        ❤️ Every Donation Creates Hope
+    </h3>
+    <p style="
+    margin-top:20px;
+    color:#aaa;
+    font-size:18px;">
+    💙 500+ Lives Impacted Through Donations
+    </p>
+    <button class="btn"
+            style="margin-top:30px;"
+            onclick="openDonate()">
+        Donate Now ❤️
+    </button>
+    <div class="donation-progress">
+        <div class="donation-fill"></div>
+    </div>
+    <p style="
+    color:#ccc;
+    margin-top:15px;">
+    ₹50,000 Raised of ₹5,00,000 Goal
+    </p>
+    <p style="
+    color:#00e5ff;
+    font-size:18px;
+    margin-top:10px;">
+    10% Goal Completed 🎯
+    </p>
+
+
+</div>
+
+</section>
+<footer class="glass section">
+
+<h2>Get In Touch</h2>
+
+<p style="
+text-align:center;
+color:#bbb;
+margin-bottom:40px;">
+We would love to hear from you and work together to create positive change.
+</p>
+
+<div class="contact-container">
+
+    <div class="contact-box">
+        <div class="contact-icon">📞</div>
+        <h4>Phone</h4>
+        <p>+91-8887514053</p>
+    </div>
+
+    <div class="contact-box">
+        <div class="contact-icon">📧</div>
+        <h4>Email</h4>
+        <p>sunil.ballia13@gmail.com</p>
+    </div>
+
+    <div class="contact-box">
+        <div class="contact-icon">📍</div>
+        <h4>Office</h4>
+        <p> Belthara Road Ballia, Uttar Pradesh, India</p>
+    </div>
+
+</div>
+
+<div class="footer-line"></div>
+
+<p class="footer-text">
+🌍 Building Better Communities Through Education, Healthcare & Welfare
+</p>
+
+<p class="copyright">
+© 2026 IMEWS. All Rights Reserved.
+</p>
+
+</footer>
+<div id="detailsPanel"
+class="details-panel">
+
+<span class="close-panel"
+onclick="closePanel()">
+×
+</span>
+
+<img id="panelImg1" class="panel-image" src="">
+<img id="panelImg2" class="panel-image" src="">
+
+<h1 class="panel-title"
+id="panelTitle">
+</h1>
+
+<div class="panel-text"
+id="panelText">
+</div>
+
+<button class="btn"
+style="width:100%;margin-top:30px;"
+onclick="openDonate()">
+Donate Now ❤️
+</button>
+
+</div>
+<script>
+let userName =
+    localStorage.getItem("userName") || "Guest";
+
+document.getElementById("welcome").innerHTML =
+    "Welcome " + userName;
+
+function logout(){
+    localStorage.clear();
+    window.location.href="shivam.html";
+}
+function openDonate(){
+    alert("Payment section coming soon.");
+}
+function count(id,end){
+    let x=0;
+
+    let interval=setInterval(()=>{
+
+        x++;
+
+        document.getElementById(id)
+        .innerHTML = x + "+";
+
+        if(x >= end){
+            clearInterval(interval);
+        }
+
+    },5);
+}
+
+count("child",500);
+count("medical",5000);
+count("camp",15);
+count("project",200);
+function closePanel(){
+
+document.getElementById("detailsPanel")
+.classList.remove("active");
+}
+function openPanel(type){
+
+let title="";
+let text="";
+let img1 = "";
+let img2 = "";
+
+if(type==="education"){
+ img1 = "education1.png";
+ img2 = "shiv.png";
+ title="📚 Education";
+ text = `
+<h3 style="color:#00e5ff">
+Building a Better Future Through Education
+</h3>
+
+<p>
+Education is the most powerful tool for breaking the cycle of poverty and creating opportunities for a better future. Our organisation believes that every child deserves access to quality education, regardless of financial background, social status or geographical location.
+</p>
+
+<p>
+Through our educational initiatives, we support children by providing books, notebooks, school bags, uniforms and learning materials. We also encourage digital education and computer literacy so that students can compete in the modern world.
+</p>
+
+<h3 style="color:#00e5ff">
+Our Educational Achievements
+</h3>
+
+<ul>
+<li>✔ 500+ Children Benefited</li>
+<li>✔ Books and Stationery Distribution</li>
+<li>✔ School Bags and Uniform Support</li>
+<li>✔ Computer Education Programmes</li>
+<li>✔ Digital Learning Initiatives</li>
+<li>✔ Parent Awareness Sessions</li>
+<li>✔ Career Guidance Programmes</li>
+</ul>
+
+<h3 style="color:#00e5ff">
+Why Education Matters
+</h3>
+
+<p>
+Education gives children confidence, knowledge and the ability to transform their lives. An educated child becomes an empowered citizen capable of contributing positively to society and supporting future generations.
+</p>
+
+<h3 style="color:#00e5ff">
+Future Goals
+</h3>
+
+<p>
+Our future plans include establishing digital classrooms, scholarship programmes, village libraries and career counselling centres so that every child has access to equal opportunities and a brighter future.
+</p>
+`;
+}
+
+if(type==="health"){
+ img1 = "health.png";
+ img2 = "health1.png";
+ title="🩺 Healthcare";
+ text = `
+<h3 style="color:#00e5ff">
+Accessible Healthcare For Every Family
+</h3>
+
+<p>
+Good health is the foundation of a strong and prosperous society. Unfortunately, many rural communities still struggle to access basic healthcare facilities and medical guidance.
+</p>
+
+<p>
+Our healthcare initiatives focus on improving the physical and mental well-being of vulnerable communities through medical camps, awareness programmes and preventive healthcare services.
+</p>
+
+<h3 style="color:#00e5ff">
+Healthcare Achievements
+</h3>
+
+<ul>
+<li>✔ 15 Health Camps Conducted</li>
+<li>✔ 5000+ Beneficiaries Served</li>
+<li>✔ Free Medical Consultation</li>
+<li>✔ Medicine Distribution</li>
+<li>✔ Child Healthcare Programmes</li>
+<li>✔ Nutrition Awareness Campaigns</li>
+<li>✔ Maternal Healthcare Support</li>
+</ul>
+
+<h3 style="color:#00e5ff">
+Our Mission
+</h3>
+
+<p>
+We strive to ensure that every individual has access to affordable and quality healthcare services regardless of economic circumstances.
+</p>
+
+<h3 style="color:#00e5ff">
+Future Goals
+</h3>
+
+<p>
+Our future plans include mobile medical clinics, regular health screening programmes, mental health awareness campaigns and expanding healthcare services to remote villages.
+</p>
+`;
+}
+
+if(type==="women"){
+    img1 = "women1.png";
+    img2 = "women2.png";
+title="👩 Women Empowerment";
+text = `
+<h3 style="color:#00e5ff">
+Empowering Women, Transforming Communities
+</h3>
+
+<p>
+Women play a vital role in building strong families and progressive societies. However, many women still face challenges related to education, employment and financial independence.
+</p>
+
+<p>
+Our organisation empowers women by providing opportunities for skill development, vocational training and entrepreneurship.
+</p>
+
+<h3 style="color:#00e5ff">
+Key Initiatives
+</h3>
+
+<ul>
+<li>✔ Vocational Training Programmes</li>
+<li>✔ Skill Development Workshops</li>
+<li>✔ Financial Literacy Sessions</li>
+<li>✔ Entrepreneurship Support</li>
+<li>✔ Self Help Groups</li>
+<li>✔ Awareness and Leadership Programmes</li>
+<li>✔ Employment Opportunities</li>
+</ul>
+
+<h3 style="color:#00e5ff">
+Why Women Empowerment Matters
+</h3>
+
+<p>
+An empowered woman can educate her family, improve economic conditions and become a source of inspiration for the entire community.
+</p>
+
+<h3 style="color:#00e5ff">
+Future Goals
+</h3>
+
+<p>
+Our future vision includes establishing women training centres, supporting women-led businesses and creating sustainable employment opportunities for rural women.
+</p>
+`;
+}
+
+if(type==="community"){
+    img1 = "welfare.png";
+    img2 = "welfare1.png";
+title="❤️ Community Welfare";
+text = `
+<h3 style="color:#00e5ff">
+Building Stronger and Healthier Communities
+</h3>
+
+<p>
+Community development is the foundation of social progress. Our organisation works continuously to improve the quality of life of vulnerable and underprivileged communities.
+</p>
+
+<p>
+Through food distribution drives, awareness programmes and environmental initiatives, we aim to create cleaner, healthier and more inclusive communities.
+</p>
+
+<h3 style="color:#00e5ff">
+Community Achievements
+</h3>
+
+<ul>
+<li>✔ Food Distribution Drives</li>
+<li>✔ Rural Development Projects</li>
+<li>✔ Community Awareness Programmes</li>
+<li>✔ Swachh Abhiyaan Campaigns</li>
+<li>✔ Environmental Protection Activities</li>
+<li>✔ Social Support Programmes</li>
+<li>✔ Emergency Relief Initiatives</li>
+</ul>
+
+<h3 style="color:#00e5ff">
+Our Vision
+</h3>
+
+<p>
+We believe that every person deserves a life of dignity, safety and opportunity. By working together, communities can overcome challenges and create a sustainable future.
+</p>
+
+<h3 style="color:#00e5ff">
+Future Goals
+</h3>
+
+<p>
+Our future plans include large-scale cleanliness drives, environmental awareness programmes, community resource centres and sustainable rural development projects.
+</p>
+`;
+}
+document.getElementById("panelImg1").src = img1;
+document.getElementById("panelImg2").src = img2;
+
+document.getElementById("panelTitle").innerHTML = title;
+document.getElementById("panelText").innerHTML = text;
+
+document.getElementById("detailsPanel")
+.classList.add("active");
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const supabaseClient = window.supabase.createClient(
+  "https://rmclxylzjhvujyglwbcz.supabase.co",
+  "sb_publishable_JVcokI23JSAH554gFoNbmw_oc9U2UVs"
+);
+async function loadWallet(){
+
+    let email =
+        localStorage.getItem(
+            "userEmail"
+        );
+
+    if(!email) return;
+
+    const { data } =
+    await supabaseClient
+    .from("wallets")
+    .select("balance")
+    .eq("email", email)
+    .maybeSingle();
+
+    if(data){
+        document.getElementById(
+            "walletBalance"
+        ).innerHTML =
+            "₹" + data.balance;
+        document.getElementById(
+            "walletBalance"
+        ).style.color = "#00ff6a";
+        setTimeout(()=>{
+            document.getElementById(
+                "walletBalance"
+            ).style.color = "#00e5ff";
+            },1000);
+    }
+            
+}
+loadWallet();
+</script>
+<script>
+window.addEventListener("load",()=>{
+
+    setTimeout(()=>{
+
+        document.getElementById(
+            "loader"
+        ).style.display = "none";
+
+    },2500);
+
+});
+</script>
+</body>
+</html>
