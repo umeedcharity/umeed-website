@@ -250,6 +250,27 @@ tbody tr:hover{
     bgMove
     8s infinite alternate;
 }
+.gallery-update{
+    margin-top:30px;
+    text-align:center;
+}
+
+#uploadGalleryBtn{
+    padding:15px 30px;
+    border:none;
+    border-radius:12px;
+    background:#00e5ff;
+    color:#000;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.4s;
+}
+
+#uploadGalleryBtn:hover{
+    transform:scale(1.05);
+    box-shadow:0 0 20px #00e5ff;
+}
 
 @keyframes bgMove{
 
@@ -364,6 +385,18 @@ tbody tr:hover{
              <p>Community Welfare</p>
         </div>
     </div>
+    <div class="gallery-update">
+        <button id="uploadGalleryBtn">
+            Update Gallery Images
+        </button>
+        <input
+            type="file"   
+            id="galleryUpload" 
+            multiple
+            accept="image/*"
+            style="display:none;">
+
+    </div>
 
     <div class="search-box">
 
@@ -400,6 +433,59 @@ tbody tr:hover{
             </tbody>
 
         </table>
+        <h2 style="
+        margin-top:50px;
+        margin-bottom:20px;
+        color:#00e5ff;
+        text-align:center;
+        ">
+        Volunteer Details
+       </h2>
+
+       <div class="search-box">
+
+      <input
+      type="text"
+      id="searchVolunteer"
+      placeholder="Search Volunteer by Name, Aadhaar or Mobile Number">
+
+      </div>
+
+     <div class="table-box">
+
+     <table>
+
+     <thead>
+
+     <tr>
+
+     <th>Name</th>
+
+     <th>Email</th>
+
+     <th>Mobile</th>
+
+     <th>Father Name</th>
+
+     <th>Aadhaar No</th>
+
+     <th>Address</th>
+
+     <th>Registration Date</th>
+
+     <th>Payment</th>
+
+     </tr>
+
+     </thead>
+
+     <tbody id="volunteerTable">
+
+     </tbody>
+
+     </table>
+
+     </div>
 
     </div>
 
@@ -415,28 +501,60 @@ window.supabase.createClient(
 "sb_publishable_JVcokI23JSAH554gFoNbmw_oc9U2UVs"
 );
 
-function logoutAdmin(){
+async function logoutAdmin(){
 
-    localStorage.removeItem(
-        "adminLogin"
-    );
+    await supabaseClient.auth.signOut();
 
-    localStorage.removeItem(
-        "developerLogin"
-    );
+    localStorage.clear();
 
-    window.location.href =
-    "shivam.html";
+    window.location.href = "index.html";
+
 }
-if(
-   !localStorage.getItem("adminLogin")
-   &&
-   !localStorage.getItem("developerLogin")
-){
-    window.location.href =
-    "shivam.html";
+async function checkAdminAccess(){
+
+    const { data:{user} } =
+    await supabaseClient.auth.getUser();
+
+    if(!user){
+
+        window.location.href="index.html";
+
+        return;
+    }
+
+    const {
+        data: roleData,
+        error
+    } =
+    await supabaseClient
+    .from("user_roles")
+    .select("role")
+    .eq("email", user.email)
+    .maybeSingle();
+
+    if(
+        error ||
+        !roleData ||
+        (
+            roleData.role !== "admin" &&
+            roleData.role !== "developer"
+        )
+    ){
+
+        await supabaseClient.auth.signOut();
+
+        window.location.href="index.html";
+
+        return;
+
+    }
+
+    loadDashboard();
+
+    loadVolunteers();
+
 }
-loadDashboard();
+checkAdminAccess();
 
 async function loadDashboard(){
 
@@ -664,6 +782,66 @@ async function loadUsers(users){
     ).innerHTML =
     html;
 }
+async function loadVolunteers(){
+
+    const { data: volunteers, error } =
+    await supabaseClient
+    .from("volunteers")
+    .select("*")
+    .order("id",{ascending:false});
+
+    if(error){
+        console.log(error);
+        return;
+    }
+
+    let html = "";
+
+    volunteers.forEach(v=>{
+
+        html += `
+        <tr>
+
+            <td>${v.name}</td>
+
+            <td>${v.email}</td>
+
+            <td>${v.mobile}</td>
+
+            <td>${v.father_name}</td>
+
+            <td>${v.aadhaar}</td>
+
+            <td>${v.address}</td>
+
+            <td>${v.join_date}</td>
+
+            <td>
+
+                <span
+                style="
+                background:#2ecc71;
+                color:white;
+                padding:6px 12px;
+                border-radius:20px;
+                ">
+
+                ${v.payment}
+
+                </span>
+
+            </td>
+
+        </tr>
+        `;
+
+    });
+
+    document.getElementById(
+        "volunteerTable"
+    ).innerHTML = html;
+
+}
 async function blockUser(
     email
 ){
@@ -732,10 +910,110 @@ async function(){
         filtered
     );
 });
-setInterval(
-loadDashboard,
-5000
-);
+setInterval(async()=>{
+
+    const {
+        data:{user}
+    } =
+    await supabaseClient.auth.getUser();
+
+    if(!user){
+
+        window.location.href="index.html";
+
+        return;
+
+    }
+
+    loadDashboard();
+
+    loadVolunteers();
+
+},5000);
+document.getElementById(
+    "uploadGalleryBtn"
+).onclick = function(){
+
+    document.getElementById(
+        "galleryUpload"
+    ).click();
+
+};
+document.getElementById(
+    "galleryUpload"
+)
+.addEventListener(
+"change",
+async function(){
+
+    const files = [...this.files];
+
+    if(files.length > 5){
+        alert(
+            "Please select up to 5 images only."
+        );
+        return;
+    }
+
+    let imageUrls = [];
+
+    await supabaseClient
+    .from("gallery_images")
+    .delete()
+    .neq("id",0);
+
+    for(const file of files){
+
+        const fileName =
+        Date.now() +
+        "-" +
+        file.name;
+
+        const { error } =
+        await supabaseClient
+        .storage
+        .from("gallery")
+        .upload(
+            fileName,
+            file
+        );
+
+        if(error){
+            alert(error.message);
+            return;
+        }
+
+        const {
+            data
+        } =
+        supabaseClient
+        .storage
+        .from("gallery")
+        .getPublicUrl(
+            fileName
+        );
+
+        imageUrls.push(
+            data.publicUrl
+        );
+        const { error: insertError } = 
+        await supabaseClient
+        .from("gallery_images")
+        .insert({
+            image_url:
+            data.publicUrl
+        });
+        console.log(insertError)
+        if(insertError){
+            alert(insertError.message);
+        }
+        
+    }
+
+    alert(
+        "Gallery Updated Successfully"
+    );
+});
 </script>
 
 </body>

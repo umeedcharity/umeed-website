@@ -518,9 +518,7 @@ button:hover{
 
                   <a href="#"
                      onclick="adminForgotPassword()">
-                     style="
-                     color:#10b8b8;
-                     text-decoration:none;">
+                     style="color:#10b8b8;text-decoration:none;">
                      Forgot Password?
                   </a>
 
@@ -872,100 +870,93 @@ async function loginUser(){
     window.location.href =
         "./dasboard.html";
 }
-const ADMIN_EMAIL =
-"indrdevo@gmail.com";
+async function adminLogin(){
 
-const ADMIN_PASSWORD =
-"Sunil@88";
+    const email =
+    document.getElementById("adminEmail").value.trim();
 
-const DEV_EMAIL =
-"sshivam78085@gmail.com";
+    const password =
+    document.getElementById("adminPassword").value;
 
-const DEV_PASSWORD =
-"Sandhya@80";
+    const { error } =
+    await supabaseClient.auth.signInWithPassword({
+        email,
+        password
+    });
 
-function adminLogin(){
-
-    let email =
-        document.getElementById(
-            "adminEmail"
-        ).value;
-
-    let password =
-        document.getElementById(
-            "adminPassword"
-        ).value;
-
-    if(
-        email === ADMIN_EMAIL &&
-        password === ADMIN_PASSWORD
-    ){
-        adminAttempts = 0;
-        localStorage.setItem(
-            "adminLogin",
-            "true"
-        );
-
-        window.location.href =
-            "./admin.html";
+    if(error){
+        alert(error.message);
+        return;
     }
-    else{
-        adminAttempts++;
 
-        if(adminAttempts >= 4){
+    const { data: roleData, error: roleError } =
+    await supabaseClient
+    .from("user_roles")
+    .select("role")
+    
+    .eq("email", email)
+    .single();
+    console.log("Admin Email:", email);
+    console.log("Role Data:", roleData);
+    console.log("Role Error:", roleError);
 
-           document.getElementById(
-               "adminForgot"
-            ).style.display = "block";
-        }
-
-         alert(
-            "Wrong Admin Email or Password"
-    );
+    if(roleError){
+        alert("Role not found.");
+        await supabaseClient.auth.signOut();
+        return;
     }
+
+    if(roleData.role !== "admin"){
+        alert("Access Denied");
+        await supabaseClient.auth.signOut();
+        return;
+    }
+
+    window.location.href = "admin.html";
+
+}
+async function developerLogin(){
+
+    const email =
+    document.getElementById("developerEmail").value.trim();
+
+    const password =
+    document.getElementById("developerPassword").value;
+
+    const { error } =
+    await supabaseClient.auth.signInWithPassword({
+        email,
+        password
+    });
+
+    if(error){
+        alert(error.message);
+        return;
+    }
+
+    const { data: roleData, error: roleError } =
+    await supabaseClient
+    .from("user_roles")
+    .select("role")
+    .eq("email", email)
+    .single();
+
+    if(roleError){
+        alert("Role not found.");
+        await supabaseClient.auth.signOut();
+        return;
+    }
+
+    if(roleData.role !== "developer"){
+        alert("Access Denied");
+        await supabaseClient.auth.signOut();
+        return;
+    }
+
+    window.location.href = "admin.html";
+
 }
 
-function developerLogin(){
-
-    let email =
-        document.getElementById(
-            "developerEmail"
-        ).value;
-
-    let password =
-        document.getElementById(
-            "developerPassword"
-        ).value;
-
-    if(
-        email === DEV_EMAIL &&
-        password === DEV_PASSWORD
-    ){
-        developerAttempts = 0;
-        localStorage.setItem(
-            "developerLogin",
-            "true"
-        );
-
-        window.location.href =
-            "./admin.html";
-    }
-    else{
-        
-        developerAttempts++;
-
-        if(developerAttempts >= 4){
-
-            document.getElementById(
-               "developerForgot"
-            ).style.display = "block";
-        }
-
-        alert(
-          "Wrong Developer Email or Password"
-        );
-    }
-}
 function forgotPassword(){
 
     document.getElementById(
@@ -979,12 +970,12 @@ function forgotPassword(){
         "loginEmail"
     ).value;
 }
+
 async function sendResetOTP(){
 
     let email =
-        document.getElementById(
-            "resetEmail"
-        ).value
+        document.getElementById("resetEmail")
+        .value
         .trim();
 
     if(!email){
@@ -992,47 +983,8 @@ async function sendResetOTP(){
         return;
     }
 
-    if(
-        email === ADMIN_EMAIL ||
-        email === DEV_EMAIL
-    ){
-
-        const { error } =
-        await supabaseClient.auth
-        .signInWithOtp({
-            email: email
-        });
-
-        if(error){
-            alert(error.message);
-        }
-        else{
-            alert(
-                "OTP sent successfully."
-            );
-
-            document.getElementById(
-                "resetOTP"
-            ).style.display =
-            "block";
-
-            document.getElementById(
-                "newPassword"
-            ).style.display =
-            "block";
-
-            document.getElementById(
-                "updateBtn"
-            ).style.display =
-            "block";
-        }
-
-        return;
-    }
-
-    const {
-        data:user
-    } =
+    // Check if email exists
+    const { data: user } =
     await supabaseClient
     .from("user_details")
     .select("email")
@@ -1045,35 +997,20 @@ async function sendResetOTP(){
     }
 
     const { error } =
-    await supabaseClient.auth
-    .signInWithOtp({
+    await supabaseClient.auth.signInWithOtp({
         email: email
     });
 
     if(error){
         alert(error.message);
+        return;
     }
-    else{
 
-        alert(
-            "OTP sent successfully."
-        );
+    alert("OTP sent successfully.");
 
-        document.getElementById(
-            "resetOTP"
-        ).style.display =
-        "block";
-
-        document.getElementById(
-            "newPassword"
-        ).style.display =
-        "block";
-
-        document.getElementById(
-            "updateBtn"
-        ).style.display =
-        "block";
-    }
+    document.getElementById("resetOTP").style.display = "block";
+    document.getElementById("newPassword").style.display = "block";
+    document.getElementById("updateBtn").style.display = "block";
 }
 
 async function updateForgotPassword(){

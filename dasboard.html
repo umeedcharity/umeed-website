@@ -71,7 +71,28 @@ body{
     border:2px solid #00e5ff;
     box-shadow:0 0 15px #00e5ff;
 }
+.about-panel{
+    left:-100%;
+    right:auto !important;
+    border-left:none;
+    border-right:2px solid #00e5ff;
+    overflow-y:auto;
+    padding-bottom:80px;
+}
 
+.about-panel.active{
+    left:0;
+    right:auto !important;
+}
+.about-panel .close-panel{
+    position:absolute;
+    top:20px;
+    right:25px;
+    font-size:40px;
+    color:#00e5ff;
+    cursor:pointer;
+    z-index:10000;
+}
 .logo-text h2{
     color:#00e5ff;
     font-size:28px;
@@ -251,6 +272,7 @@ footer{
     }
     .details-panel{
         width:100%;
+        max-width: 100%;
     }
     .navbar{
         flex-direction:column;
@@ -587,11 +609,7 @@ color:#ddd;
 }
 
 </style>
-<script>
-if(localStorage.getItem("isLoggedIn") !== "true"){
-    window.location.href = "shivam.html";
-}
-</script>
+
 <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 </head>
 
@@ -655,14 +673,14 @@ if(localStorage.getItem("isLoggedIn") !== "true"){
     </button>
 
 </section>
-<section class="glass section">
+<section class="glass section"
+onclick="openAboutPanel()"
+style="cursor:pointer;">
 
     <h2>About Our NGO</h2>
 
     <p>
-        INDRADEV MEMORIAL EDUCATIONAL AND
-        WELFARE SOCIETY works for education,
-        healthcare and community welfare.
+        Click here to know more about our organisation.
     </p>
 
 </section>
@@ -701,7 +719,6 @@ onclick="openPanel('education')">
 <h3>Education</h3>
 <p>500+ children supported through quality education programs.</p>
 </div>
-
 <div class="card glass"
 onclick="openPanel('health')">
 🩺
@@ -721,6 +738,33 @@ onclick="openPanel('community')">
 ❤️
 <h3>Community Welfare</h3>
 <p>Food distribution and community development initiatives.</p>
+</div>
+</div>
+</section>
+<section class="section">
+
+<h2 style="text-align:center;">
+Membership
+</h2>
+
+<div class="cards">
+
+<div class="card glass"
+onclick="openVolunteerPanel()">
+🤝
+<h3>Become A Volunteer</h3>
+<p>
+Join our NGO as a volunteer.
+</p>
+</div>
+
+<div class="card glass"
+onclick="openDeveloperPanel()">
+💻
+<h3>Developer ID</h3>
+<p>
+Access Developer Identity Card.
+</p>
 </div>
 
 </div>
@@ -762,13 +806,8 @@ Projects
 Gallery
 </h2>
 
-<div class="cards">
-
-<img src="education.jpeg" class="gallery">
-
-<img src="medical.png" class="gallery">
-
-<img src="fod.png" class="gallery">
+<div class="cards"
+id="galleryContainer">
 
 </div>
 
@@ -839,7 +878,6 @@ color:#ccc;">
 
 </div>
 
-    </div>
 
     <h3 style="margin-top:30px;color:#00e5ff;">
         ❤️ Every Donation Creates Hope
@@ -869,10 +907,6 @@ color:#ccc;">
     margin-top:10px;">
     10% Goal Completed 🎯
     </p>
-
-
-</div>
-
 </section>
 <footer class="glass section">
 
@@ -918,6 +952,264 @@ We would love to hear from you and work together to create positive change.
 </p>
 
 </footer>
+<div id="idCardSection"
+style="
+display:none;
+width:430px;
+margin:40px auto;
+">
+
+    <!-- FRONT CARD START -->
+    <div id="idCard"
+    style="
+    width:430px;
+    background:#ffffff;
+    color:#000;
+    border-radius:25px;
+    overflow:hidden;
+    box-shadow:0 0 35px rgba(0,0,0,.5);
+    font-family:Arial;
+    ">
+
+        <!-- Header -->
+        <div style="
+        background:linear-gradient(135deg,#b30000,#001b5e);
+        padding:18px;
+        text-align:center;
+        color:white;
+        ">
+
+            <img
+            src="logo.png"
+            style="
+            width:70px;
+            height:70px;
+            border-radius:50%;
+            background:white;
+            padding:4px;
+            ">
+
+            <h2 style="margin-top:10px;font-size:24px;">
+                INDRADEV MEMORIAL
+            </h2>
+
+            <h3 style="font-size:18px;margin-top:5px;">
+                EDUCATIONAL AND WELFARE SOCIETY
+            </h3>
+
+            <p style="font-size:13px;margin-top:8px;">
+                Belthara Road • Ballia • Uttar Pradesh
+            </p>
+
+            <div style="
+            background:white;
+            color:#001b5e;
+            padding:10px;
+            margin-top:15px;
+            border-radius:30px;
+            font-weight:bold;
+            font-size:18px;
+            ">
+
+                <span id="cardType">
+                    VOLUNTEER ID CARD
+                </span>
+
+            </div>
+
+        </div>
+        <!-- Header END -->
+
+        <!-- Body -->
+        <div style="padding:25px;">
+
+            <p id="cardNumber" style="color:#000;font-size:17px;margin:10px 0;"></p>
+
+            <p id="cardName" style="color:#000;font-size:17px;margin:10px 0;"></p>
+
+            <p id="cardFather" style="color:#000;font-size:17px;margin:10px 0;"></p>
+
+            <p id="cardEmail" style="color:#000;font-size:17px;margin:10px 0;"></p>
+
+            <p id="cardAadhaar" style="color:#000;font-size:17px;margin:10px 0;"></p>
+
+            <p id="cardAddress" style="color:#000;font-size:17px;margin:10px 0;"></p>
+
+            <p id="cardBlood" style="color:#000;font-size:17px;margin:10px 0;"></p>
+
+            <p id="cardJoinDate" style="color:#000;font-size:17px;margin:10px 0;"></p>
+
+           
+            <hr style="margin:25px 0;">
+
+            <div style="text-align:right;">
+
+                <b>Dr. Sunil Kumar</b>
+
+                <br>
+
+                Founder & Chairman
+
+            </div>
+
+        </div>
+        <!-- Body END -->
+
+        <!-- Footer -->
+        <div
+        style="
+        background:#001b5e;
+        color:white;
+        padding:12px;
+        text-align:center;
+        ">
+
+            INDRADEV MEMORIAL EDUCATIONAL AND WELFARE SOCIETY
+
+        </div>
+
+    </div>
+    <!-- FRONT CARD END -->
+
+
+
+    <!-- BACK CARD START -->
+
+    <div id="idCardBack"
+    style="
+    width:430px;
+    background:white;
+    border-radius:25px;
+    overflow:hidden;
+    margin:30px auto;
+    box-shadow:0 0 30px rgba(0,0,0,.5);
+    font-family:Arial;
+    color:#000;
+    ">
+
+        <div style="
+        background:linear-gradient(135deg,#001b5e,#8b0000);
+        color:white;
+        padding:18px;
+        text-align:center;
+        ">
+
+            <img src="logo.png"
+            style="
+            width:60px;
+            height:60px;
+            background:white;
+            border-radius:50%;
+            padding:4px;
+            ">
+
+            <h2>INDRADEV MEMORIAL</h2>
+
+            <h3>EDUCATIONAL AND WELFARE SOCIETY</h3>
+
+            <h3 style="margin-top:15px;">
+                IDENTITY CARD
+            </h3>
+
+        </div>
+
+        <div style="padding:25px;">
+
+            <h3 style="color:#8b0000;">
+                Important Instructions
+            </h3>
+
+            <ul style="line-height:2;padding-left:20px;">
+
+                <li>This ID Card is the property of IMEWS.</li>
+
+                <li>This card is valid only for authorised volunteers.</li>
+
+                <li>Misuse of this card may result in cancellation.</li>
+
+                <li>Please carry this ID while attending NGO activities.</li>
+
+                <li>If found, kindly return it to the NGO office.</li>
+
+            </ul>
+
+            <hr>
+
+            <h3 style="color:#8b0000;">
+                Emergency Contact
+            </h3>
+
+            <p>📞 +91-8887514053</p>
+
+            <p>📧 sunil.ballia13@gmail.com</p>
+
+            <p>
+                📍 Belthara Road,
+                Ballia,
+                Uttar Pradesh
+            </p>
+
+            <br>
+
+            <div
+            style="
+            text-align:center;
+            font-size:14px;
+            ">
+
+                Official Volunteer Identity Card
+
+            </div>
+
+        </div>
+
+        <div
+        style="
+        background:#001b5e;
+        color:white;
+        text-align:center;
+        padding:12px;
+        ">
+
+            www.indradevmemorial.org
+
+        </div>
+
+    </div>
+    <!-- BACK CARD END -->
+
+
+    <button
+    class="btn"
+    style="
+    width:100%;
+    margin-top:20px;
+    "
+    onclick="downloadIdCard()">
+        Download ID Card
+    </button>
+
+</div>
+<!-- idCardSection END -->
+
+<div id="aboutPanel"
+class="details-panel about-panel">
+
+<span class="close-panel"
+onclick="closeAboutPanel()">
+×
+</span>
+
+<h1 class="panel-title">
+About Our NGO
+</h1>
+
+<div class="panel-text"
+id="aboutText">
+
+</div>
+
+</div>
 <div id="detailsPanel"
 class="details-panel">
 
@@ -925,7 +1217,6 @@ class="details-panel">
 onclick="closePanel()">
 ×
 </span>
-
 <img id="panelImg1" class="panel-image" src="">
 <img id="panelImg2" class="panel-image" src="">
 
@@ -942,6 +1233,155 @@ style="width:100%;margin-top:30px;"
 onclick="openDonate()">
 Donate Now ❤️
 </button>
+</div>
+
+<div id="developerPanel"
+class="details-panel">
+<span class="close-panel"
+onclick="closeDeveloperPanel()">
+×
+</span>
+<h1 class="panel-title">
+Developer Verification
+</h1>
+
+<input
+id="developerCode"
+placeholder="Enter Developer Code"
+style="width:100%;padding:15px;margin-top:20px;
+background:#1f2937;
+color:white;
+border:1px solid #00e5ff;
+border-radius:12px;
+">
+
+<button
+class="btn"
+style="width:100%;margin-top:20px;"
+onclick="verifyDeveloperCode()">
+Verify
+</button>
+
+</div>
+
+<div id="volunteerPanel"
+class="details-panel">
+
+<span class="close-panel"
+onclick="closeVolunteerPanel()">
+×
+</span>
+
+<h1 class="panel-title">
+Volunteer Registration
+</h1>
+
+<input
+id="volName"
+placeholder="Name"
+style="width:100%;padding:15px;margin:10px 0;
+background:#1f2937;
+color:white;
+border:1px solid #00e5ff;
+border-radius:12px;"
+>
+
+<input
+id="volEmail"
+placeholder="Email"
+style="width:100%;padding:15px;margin:10px 0;">
+
+<input
+id="volPassword"
+type="password"
+placeholder="Password"
+style="width:100%;padding:15px;margin:10px 0;">
+
+<input
+id="volAadhaar"
+placeholder="Aadhaar Number"
+style="width:100%;padding:15px;margin:10px 0;">
+<input
+id="volFather"
+placeholder="Father's Name"
+style="
+width:100%;
+padding:15px;
+margin:10px 0;
+background:#1f2937;
+color:white;
+border:1px solid #00e5ff;
+border-radius:12px;
+">
+
+<input
+id="volAddress"
+placeholder="Address"
+readonly
+style="
+width:100%;
+padding:15px;
+margin:10px 0;
+background:#1f2937;
+color:white;
+border:1px solid #00e5ff;
+border-radius:12px;
+">
+
+
+
+<!-- YAHAN MOBILE ADD KARO -->
+
+<input
+id="volMobile"
+placeholder="Mobile Number"
+style="
+width:100%;
+padding:15px;
+margin:10px 0;
+background:#1f2937;
+color:white;
+border:1px solid #00e5ff;
+border-radius:12px;
+">
+
+<!-- YAHAN BLOOD GROUP ADD KARO -->
+
+<input
+id="volBlood"
+placeholder="Blood Group"
+style="
+width:100%;
+padding:15px;
+margin:10px 0;
+background:#1f2937;
+color:white;
+border:1px solid #00e5ff;
+border-radius:12px;
+">
+<button
+class="btn"
+style="width:100%;margin-top:20px;"
+onclick="showVolunteerPayment()">
+Submit
+</button>
+
+<div
+id="paymentBox"
+style="display:none;">
+
+<h3 style="margin-top:30px;">
+Registration Fee ₹500
+</h3>
+
+<button
+class="btn"
+style="width:100%;margin-top:20px;"
+onclick="generateVolunteerCard()">
+Pay ₹500
+</button>
+
+</div>
 
 </div>
 <script>
@@ -951,9 +1391,14 @@ let userName =
 document.getElementById("welcome").innerHTML =
     "Welcome " + userName;
 
-function logout(){
+async function logout(){
+
+    await supabaseClient.auth.signOut();
+
     localStorage.clear();
-    window.location.href="shivam.html";
+
+    window.location.href = "index.html";
+
 }
 function openDonate(){
     alert("Payment section coming soon.");
@@ -1041,8 +1486,8 @@ Our future plans include establishing digital classrooms, scholarship programmes
 }
 
 if(type==="health"){
- img1 = "health.png";
- img2 = "health1.png";
+ img1 = "heal1.png";
+ img2 = "heal2.png";
  title="🩺 Healthcare";
  text = `
 <h3 style="color:#00e5ff">
@@ -1202,6 +1647,27 @@ const supabaseClient = window.supabase.createClient(
   "https://rmclxylzjhvujyglwbcz.supabase.co",
   "sb_publishable_JVcokI23JSAH554gFoNbmw_oc9U2UVs"
 );
+async function checkUserSession(){
+
+    const {
+        data:{user}
+    } =
+    await supabaseClient.auth.getUser();
+
+    if(!user){
+
+        window.location.href="index.html";
+
+        return;
+
+    }
+
+    localStorage.setItem(
+        "userEmail",
+        user.email
+    );
+
+}
 async function loadWallet(){
 
     let email =
@@ -1234,7 +1700,68 @@ async function loadWallet(){
     }
             
 }
-loadWallet();
+
+async function loadGallery(){
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+    .from("gallery_images")
+    .select("*");
+
+    if(error){
+        console.log(error);
+        return;
+    }
+
+    let html = "";
+
+    if(data.length === 0){
+
+        html = `
+        <img src="education.jpeg" class="gallery">
+        <img src="medical.png" class="gallery">
+        <img src="fod.png" class="gallery">
+        <img src="image4.jpg" class="gallery">
+        <img src="image5.jpg" class="gallery">
+        `;
+
+    }else{
+
+        data.forEach(img=>{
+
+            html += `
+            <img
+            src="${img.image_url}"
+            class="gallery">
+            `;
+
+        });
+
+    }
+
+    document.getElementById(
+        "galleryContainer"
+    ).innerHTML = html;
+}
+
+checkUserSession().then(()=>{
+
+    loadWallet();
+
+    loadGallery();
+
+    checkVolunteerCard();
+
+});
+
+setInterval(
+    loadGallery,
+    5000
+);
+
 </script>
 <script>
 window.addEventListener("load",()=>{
@@ -1248,6 +1775,666 @@ window.addEventListener("load",()=>{
     },2500);
 
 });
+
+function openAboutPanel(){
+
+document.getElementById("aboutText").innerHTML = `
+
+
+<h1 style="color:#00e5ff;text-align:center;">
+INDRADEV MEMORIAL EDUCATIONAL AND WELFARE SOCIETY
+</h1>
+
+<p>
+Indradev Memorial Educational and Welfare Society is a registered
+non-governmental and non-profit organization dedicated to serving
+underprivileged and marginalized communities through education,
+healthcare, social welfare, skill development, and community
+empowerment initiatives.
+</p>
+
+<p>
+The organization believes that sustainable development can only be
+achieved when every individual, irrespective of social and economic
+background, receives equal opportunities for education, healthcare,
+and personal growth.
+</p>
+
+<h2 style="color:#00e5ff;">Registration Documents</h2>
+
+<img src="certi.png"
+style="
+width:100%;
+border-radius:15px;
+margin-bottom:25px;
+border:2px solid #00e5ff;
+box-shadow:0 0 20px rgba(0,229,255,.4);
+">
+
+<h3 style="color:#00e5ff;">
+1. Society Registration Certificate
+</h3>
+
+<p>
+This Registration Certificate is the primary and most important legal
+document of INDRADEV MEMORIAL EDUCATIONAL AND WELFARE SOCIETY.
+The certificate officially confirms that the organisation has been
+registered under the Societies Registration Act and has received
+legal recognition from the Government of Uttar Pradesh to conduct
+charitable, educational and social welfare activities.
+</p>
+
+<p>
+The registration establishes the legal identity of the organisation
+and provides a strong foundation for carrying out humanitarian,
+educational and community development programmes across different
+sections of society. It demonstrates that the organisation operates
+with transparency, accountability and in accordance with the laws
+and regulations governing non-profit institutions in India.
+</p>
+
+<p>
+Through this registration, the organisation has the authority to
+plan and implement programmes related to education, healthcare,
+women empowerment, child welfare, environmental protection,
+community development and social upliftment of economically weaker
+sections of society.
+</p>
+
+<p>
+The certificate further strengthens the credibility of the
+organisation and enables it to collaborate with government
+departments, educational institutions, donors, corporate
+organisations and social partners for the successful implementation
+of various welfare initiatives.
+</p>
+
+<p>
+This registration also reflects the long-term vision of the
+organisation to create a society where every individual receives
+equal opportunities for education, healthcare and personal
+development irrespective of social and economic background.
+</p>
+
+<p>
+As a legally registered society, INDRADEV MEMORIAL EDUCATIONAL AND
+WELFARE SOCIETY remains committed to maintaining high standards of
+governance, ethical practices and responsible utilisation of
+resources for public welfare and community service.
+</p>
+
+<p>
+The registration certificate represents the beginning of the
+organisation's journey towards building an educated, healthy,
+self-reliant and empowered society through sustainable development
+initiatives and humanitarian services.
+</p>
+
+
+<img src="certi1.png"
+style="width:100%;border-radius:15px;margin:30px 0;">
+
+<h3>2. CSR Registration Certificate</h3>
+
+<p>
+The CSR Registration Certificate enables the organization to receive
+Corporate Social Responsibility support from companies and corporate
+institutions under the Companies Act.
+</p>
+
+<p>
+This registration opens opportunities for partnerships with industries,
+private organizations, and institutions that wish to contribute to
+social development projects through corporate social responsibility
+initiatives.
+</p>
+
+<p>
+The organization aims to utilize CSR collaborations for educational
+development, healthcare services, skill development, and women
+empowerment programs.
+</p>
+
+<img src="certi3.png"
+style="width:100%;border-radius:15px;margin:30px 0;">
+
+<h3>3. 12A Registration Certificate</h3>
+
+<p>
+The 12A Registration Certificate provides income tax exemption for
+the organization and strengthens its financial sustainability.
+</p>
+
+<p>
+This registration helps the organization maximize the utilization of
+donations and resources toward public welfare activities and long-term
+community development programs.
+</p>
+
+<h2 style="color:#00e5ff;">About The Organization</h2>
+
+<p>
+INDRADEV MEMORIAL EDUCATIONAL AND WELFARE SOCIETY works in the
+areas of education, healthcare, community development, environmental
+awareness, women empowerment, child welfare, and rural development.
+</p>
+
+<p>
+The organization has continuously focused on improving the quality of
+life of economically weaker sections by providing access to education,
+health awareness programs, vocational training, and community support.
+</p>
+
+<h2 style="color:#00e5ff;">Vision</h2>
+
+<p>
+To create an inclusive, educated, healthy, and self-reliant society
+where every individual has equal opportunities to achieve his or her
+full potential.
+</p>
+
+<h2 style="color:#00e5ff;">Mission</h2>
+
+<ul>
+<li>Provide quality education to underprivileged children.</li>
+<li>Promote healthcare and nutritional awareness.</li>
+<li>Empower women through vocational training.</li>
+<li>Support child welfare and community development.</li>
+<li>Promote environmental protection and social harmony.</li>
+<li>Encourage skill development and self-employment.</li>
+<li>Strengthen rural communities through sustainable initiatives.</li>
+</ul>
+
+<h2 style="color:#00e5ff;">Key Activities</h2>
+
+<ul>
+<li>Educational Equipment Distribution.</li>
+<li>Training Center Operations.</li>
+<li>Computer Education Programs.</li>
+<li>Health Awareness Campaigns.</li>
+<li>Community Development Programs.</li>
+<li>Women's Empowerment Activities.</li>
+<li>Sanitation and Swachh Bharat Initiatives.</li>
+<li>Rural Education Development.</li>
+<li>Youth Skill Development Programs.</li>
+<li>Environmental Awareness Campaigns.</li>
+</ul>
+
+<h2 style="color:#00e5ff;">Achievements</h2>
+
+<p>
+The organization has positively impacted thousands of people through
+its educational and welfare initiatives. Hundreds of children have
+received educational support and learning materials.
+</p>
+
+<p>
+Community health awareness programs have improved public knowledge
+regarding hygiene, nutrition, and preventive healthcare.
+</p>
+
+<p>
+Vocational training initiatives have empowered youth and women by
+providing practical skills and employment opportunities.
+</p>
+
+<p>
+The organization continues to expand its reach and strengthen its
+commitment toward social transformation and sustainable development.
+</p>
+
+<h2 style="color:#00e5ff;">Founder and Chairman</h2>
+
+<p>
+Dr. Sunil Kumar is the Founder and Chairman of the organization.
+Raised in a rural environment, he witnessed social and economic
+challenges firsthand and dedicated his life to serving society and
+uplifting underprivileged communities.
+</p>
+
+<h2 style="color:#00e5ff;">Future Goals</h2>
+
+<ul>
+<li>Expand educational support to more villages.</li>
+<li>Establish additional training centers.</li>
+<li>Increase healthcare outreach programs.</li>
+<li>Develop women-focused employment initiatives.</li>
+<li>Promote digital literacy and computer education.</li>
+<li>Strengthen child nutrition and welfare programs.</li>
+<li>Create long-term sustainable community projects.</li>
+</ul>
+
+<h2 style="color:#00e5ff;">Contact Information</h2>
+
+<p>
+<b>Organization:</b> Indradev Memorial Educational and Welfare Society
+</p>
+
+<p>
+<b>Chairman:</b> Dr. Sunil Kumar
+</p>
+
+<p>
+<b>Phone:</b> +91-8887514053
+</p>
+
+<p>
+<b>Email:</b> sunil.ballia13@gmail.com
+</p>
+
+<p>
+<b>Address:</b> Village Rampur Kanungoa, Rampur Chandela,
+Ballia, Uttar Pradesh, India – 221718
+</p>
+
+<p style="text-align:center;
+font-size:20px;
+font-weight:bold;
+color:#00e5ff;
+margin-top:40px;">
+"Together We Can Build An Educated, Healthy And Empowered Society."
+</p>
+
+`;
+
+document.getElementById("aboutPanel").classList.add("active");
+}
+function closeAboutPanel(){
+    document
+    .getElementById("aboutPanel")
+    .classList.remove("active");
+}
+
+async function openVolunteerPanel(){
+
+const email = localStorage.getItem("userEmail");
+
+const { data } = await supabaseClient
+.from("volunteers")
+.select("*")
+.eq("email", email)
+.maybeSingle();
+
+if(data){
+
+    closeVolunteerPanel();
+    checkVolunteerCard();
+
+
+    return;
+
+}
+
+document.getElementById(
+"volunteerPanel"
+).classList.add("active");
+
+document.getElementById(
+"volName"
+).value =
+localStorage.getItem(
+"userName"
+) || "";
+
+document.getElementById(
+"volEmail"
+).value =
+localStorage.getItem(
+"userEmail"
+) || "";
+const { data: userData } =
+await supabaseClient
+.from("user_details")
+.select("address")
+.eq("email", email)
+.single();
+
+if(userData){
+
+document.getElementById(
+"volAddress"
+).value =
+userData.address;
+
+}
+}
+
+function closeVolunteerPanel(){
+
+document.getElementById(
+"volunteerPanel"
+).classList.remove("active");
+}
+
+function showVolunteerPayment(){
+
+document.getElementById(
+"paymentBox"
+).style.display =
+"block";
+}
+
+function openDeveloperPanel(){
+
+document.getElementById(
+"developerPanel"
+).classList.add("active");
+}
+
+function closeDeveloperPanel(){
+
+document.getElementById(
+"developerPanel"
+).classList.remove("active");
+}
+
+function verifyDeveloperCode(){
+
+const code =
+document.getElementById(
+"developerCode"
+).value;
+const email = localStorage.getItem("userEmail");
+if(
+    email === "sshivam78085@gmail.com" &&
+    code === "IMEWSDEV2026"
+)
+    
+{
+
+    generateDeveloperCard();
+}else{
+    alert(
+        "Invalid Developer Code"
+    );
+}
+}
+function generateDeveloperCard(){
+
+document.getElementById(
+"idCardSection"
+).style.display = "block";
+document.getElementById(
+"cardBlood"
+).innerHTML =
+"<b>Blood Group :</b> N/A";
+document.getElementById(
+"cardType"
+).innerHTML =
+"DEVELOPER ID CARD";
+const email = localStorage.getItem("userEmail");
+let developerId;
+
+if(email === "sshivam78085@gmail.com"){
+
+    developerId = "IMEWS-DEV-0001";
+
+}else{
+
+    developerId = "IMEWS-USER-0001";
+
+}
+
+document.getElementById(
+"cardNumber"
+).innerHTML =
+"<b>ID No :</b> " + developerId;
+
+document.getElementById(
+"cardName"
+).innerHTML =
+"<b>Name :</b> " +
+localStorage.getItem("userName");
+
+document.getElementById(
+"cardFather"
+).innerHTML =
+"<b>Role :</b> Developer";
+
+document.getElementById(
+"cardEmail"
+).innerHTML =
+"<b>Email :</b> " +
+localStorage.getItem("userEmail");
+
+document.getElementById(
+"cardAadhaar"
+).innerHTML =
+"<b>Authority :</b> IMEWS";
+
+document.getElementById(
+"cardAddress"
+).innerHTML =
+"<b>Office :</b> Belthara Road, Ballia";
+
+document.getElementById(
+"cardJoinDate"
+).innerHTML =
+"<b>Verified :</b> " +
+new Date().toLocaleDateString();
+
+}
+function downloadIdCard(){
+
+html2canvas(
+document.getElementById(
+"idCardSection"
+)
+).then(canvas=>{
+
+const link =
+document.createElement("a");
+
+link.download =
+"IMEWS-ID-Card.png";
+
+link.href =
+canvas.toDataURL();
+
+link.click();
+
+});
+
+}
+async function generateVolunteerCard(){
+
+
+document.getElementById(
+"idCardSection"
+).style.display = "block";
+
+document.getElementById(
+"cardType"
+).innerHTML =
+"VOLUNTEER ID CARD";
+const volunteerId = "VOL-" + Date.now();
+const check = await supabaseClient
+.from("volunteers")
+.select("*")
+.eq("email", document.getElementById("volEmail").value)
+.maybeSingle();
+
+if(check.data){
+
+    alert("You are already registered as a volunteer.");
+
+    checkVolunteerCard();
+
+    return;
+
+}
+document.getElementById(
+"cardNumber"
+).innerHTML =
+"<b>ID No :</b> " + volunteerId;
+
+document.getElementById(
+"cardName"
+).innerHTML =
+"<b>Name :</b> " +
+document.getElementById(
+"volName"
+).value;
+
+document.getElementById(
+"cardFather"
+).innerHTML =
+"<b>Father Name :</b> " +
+document.getElementById(
+"volFather"
+).value;
+
+document.getElementById(
+"cardEmail"
+).innerHTML =
+"<b>Email :</b> " +
+document.getElementById(
+"volEmail"
+).value;
+
+document.getElementById(
+"cardAadhaar"
+).innerHTML =
+"<b>Aadhaar No :</b> " +
+document.getElementById(
+"volAadhaar"
+).value;
+
+document.getElementById(
+"cardAddress"
+).innerHTML =
+"<b>Address :</b> " +
+document.getElementById(
+"volAddress"
+).value;
+document.getElementById(
+"cardBlood"
+).innerHTML =
+"<b>Blood Group :</b> " +
+document.getElementById(
+"volBlood"
+).value;
+document.getElementById(
+"cardJoinDate"
+).innerHTML =
+"<b>Join Date :</b> " +
+new Date().toLocaleDateString();
+const { error } = await supabaseClient
+.from("volunteers")
+.insert({
+
+    volunteer_id: volunteerId,
+
+    name: document.getElementById("volName").value,
+
+    email: document.getElementById("volEmail").value,
+
+    mobile: document.getElementById("volMobile").value,
+
+    father_name: document.getElementById("volFather").value,
+
+    aadhaar: document.getElementById("volAadhaar").value,
+
+    address: document.getElementById("volAddress").value,
+
+    blood_group: document.getElementById("volBlood").value,
+
+    payment: "Paid",
+
+    join_date: new Date().toLocaleDateString()
+
+});
+
+if(error){
+    alert(error.message);
+    return;
+}
+
+localStorage.setItem("isVolunteer","true");
+localStorage.setItem("volunteerId", volunteerId);
+closeVolunteerPanel();
+alert("Volunteer Registered Successfully");
+}
+
+async function checkVolunteerCard(){
+
+let email =
+localStorage.getItem(
+"userEmail"
+);
+
+if(!email) return;
+
+const { data } =
+await supabaseClient
+.from("volunteers")
+.select("*")
+.eq("email",email)
+.maybeSingle();
+
+if(!data) return;
+
+document.getElementById(
+"idCardSection"
+).style.display="block";
+
+document.getElementById(
+"cardType"
+).innerHTML =
+"VOLUNTEER ID CARD";
+
+document.getElementById(
+"cardNumber"
+).innerHTML =
+"<b>ID No :</b> " +
+data.volunteer_id;
+
+document.getElementById(
+"cardName"
+).innerHTML =
+"<b>Name :</b> " +
+data.name;
+
+document.getElementById(
+"cardFather"
+).innerHTML =
+"<b>Father Name :</b> " +
+data.father_name;
+
+document.getElementById(
+"cardEmail"
+).innerHTML =
+"<b>Email :</b> " +
+data.email;
+
+document.getElementById(
+"cardAadhaar"
+).innerHTML =
+"<b>Aadhaar :</b> " +
+data.aadhaar;
+
+document.getElementById(
+"cardAddress"
+).innerHTML =
+"<b>Address :</b> " +
+data.address;
+
+document.getElementById(
+"cardBlood"
+).innerHTML =
+"<b>Blood Group :</b> " +
+data.blood_group;
+
+document.getElementById(
+"cardJoinDate"
+).innerHTML =
+"<b>Join Date :</b> " +
+data.join_date;
+
+}
+</script>
+<script src="
+https://html2canvas.hertzen.com/dist/html2canvas.min.js">
 </script>
 </body>
 </html>
